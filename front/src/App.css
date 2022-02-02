@@ -1,0 +1,17 @@
+.field {
+  margin-bottom: 10px !important;
+  margin-top: 10px !important;
+}
+
+.h-100 {
+  height: 100vh;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.f-column {
+  flex-direction: column;
+}

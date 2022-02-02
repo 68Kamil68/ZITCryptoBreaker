@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    image: crypto_breaker
+    # '/start' is the shell script used to run the service
+    command: /start
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - FASTAPI_CONFIG=development
+      - DATABASE_URL=postgresql://fastapi_celery:fastapi_celery@db/fastapi_celery
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+    depends_on:
+      - redis
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=fastapi_celery
+      - POSTGRES_USER=fastapi_celery
+      - POSTGRES_PASSWORD=fastapi_celery
+
+  redis:
+    image: redis:6-alpine
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    image: celery_worker
+    command: /start-celeryworker
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    image: celery_beat
+    command: /start-celerybeat
+    volumes:
+      - .:/app
+    env_file:
+      - .env-dev
+    depends_on:
+      - redis
+      - db
+
+  flower:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    image: celery_flower
+    command: /start-flower
+    volumes:
+      - .:/app
+    env_file:
+      - .env-dev
+    ports:
+      - "5557:5555"
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
