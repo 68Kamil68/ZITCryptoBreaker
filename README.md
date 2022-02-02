@@ -40,7 +40,8 @@ adres e-mail oraz wybierając jedną z 4 list słów.
 
 ![img.png](docs/img.png)
 
-Np. słowo 'Pudzian', które znajduje się na jednej z list wyrazów, w MD5 to '3295b7283879090305aa229803b0d94b'.
+Np. wyraz 'Pudzian', które znajduje się na jednej z list wyrazów, w MD5 to '3295b7283879090305aa229803b0d94b'.
+
 ![img_1.png](docs/img_1.png)
 
 Naciskamy przycisk 'Submit' orzymujemy wiadomość 
