@@ -47,3 +47,17 @@ def get_settings():
 
 
 settings = get_settings()
+
+
+class Solution:
+    def deleteAndEarn(self, nums) -> int:
+        x_values = sorted(set(nums))
+
+        x = {
+            x_values[0]: nums.count(x_values[0]) * x_values[0],
+            x_values[1]: nums.count(x_values[1]) * x_values[1],
+            x_values[2]: nums.count(x_values[2]) * x_values[2],
+        }
+
+        for num in x_values:
+            x[num] = 3
